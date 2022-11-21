@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from "react";
 import "./InfiniteScroll.css";
+import LoadingSpinner from "../loadingSpinner/LoadingSpinner";
 
 const InfiniteScroll = () => {
   const pageNo = 1;
   const [state, setState] = useState([]);
   const [page, setPage] = useState(pageNo);
+  const [isLoading, setIsLoading] = useState(true);
+ 
 
   useEffect(() => {
     fetch(`https://api.instantwebtools.net/v1/passenger?page=${page}&size=10`)
       .then((res) => res.json())
       .then((json) => setState(prevState => [...prevState, ...json.data]));
+      setIsLoading(false);
   }, [page]);
   
-  console.log(state);
   const scrollToEnd = () => {
+    setIsLoading(true);
     setPage(prevpage => prevpage + 1);
   };
 
@@ -27,6 +31,7 @@ const InfiniteScroll = () => {
     }
   };
   return (
+    isLoading ? <LoadingSpinner /> :
     <div className="main-div">
       {state.length > 0 &&
         state.map((el, i) => (
