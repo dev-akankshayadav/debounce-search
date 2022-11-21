@@ -24,7 +24,7 @@ const BackToTop = () => {
   return (
     <>
       {backToTop && (
-        <button className="btn-style" onClick={scrollUp}>
+        <button className="btn-style" onClick={scrollUp} title="back to top">
           <FaChevronUp />
         </button>
       )}
